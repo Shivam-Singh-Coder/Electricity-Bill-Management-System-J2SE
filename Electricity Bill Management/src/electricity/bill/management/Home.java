@@ -7,6 +7,8 @@ package electricity.bill.management;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,7 +18,7 @@ import javax.swing.JOptionPane;
  * @author shiva
  */
 public class Home extends javax.swing.JFrame {
-
+    Connection con;
     /**
      * Creates new form Home
      */
@@ -27,6 +29,10 @@ public class Home extends javax.swing.JFrame {
             setTitle("Electricity Bill Management Software");
             Image icon=Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/image/electricity-icon.png"));
             this.setIconImage(icon);
+            con = ConnDb.conLink();            
+        }catch (SQLException e) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Unexpected Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }catch (Exception e) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Unexpected Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -56,6 +62,11 @@ public class Home extends javax.swing.JFrame {
         jButton1.setText("Login");
         jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton1.setFocusable(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 730, 210, 60));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/homepage.jpg"))); // NOI18N
@@ -64,6 +75,11 @@ public class Home extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        new Dashboard().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
